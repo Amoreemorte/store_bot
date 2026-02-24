@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Return GORM connected to postgres
 func GetGorm(cfg *GormConfig) (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.Open(cfg.GetDCN()), &gorm.Config{})
 	if err != nil {

@@ -11,10 +11,14 @@ type GormConfig struct {
 	dcn *DCN
 }
 
+// Return Data Source Name
 func (c *GormConfig) GetDCN() string {
 	return c.dcn.GetString()
 }
 
+// Data Source Name
+//
+// Used to connect to a database
 type DCN struct {
 	Host     string
 	User     string
@@ -24,7 +28,7 @@ type DCN struct {
 	Sslmode  string
 }
 
-// Return Data Source Name to connect to db in format:
+// Return Data Source Name to connect to db in string format:
 //
 // host=%s user=%s password=%s dbname=%s port=%d sslmode=%s
 func (c *DCN) GetString() string {
