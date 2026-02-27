@@ -50,6 +50,11 @@ func MessageFromTgMessage(tgMsg *tgbotapi.Message) *Message {
 	return msg
 }
 
+func TgMessageFromMessage(msg *MessageConfig) *tgbotapi.MessageConfig {
+	tgMsg := tgbotapi.NewMessage(msg.ReceiverId, msg.Text)
+	return &tgMsg
+}
+
 func (m *Message) IsCommand() bool {
 	return m.isCommand
 }

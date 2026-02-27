@@ -13,3 +13,7 @@ type ModeratorHandlerConfig struct {
 type MessageHandlerConfig struct {
 	DebugLevel logrus.Level
 }
+
+type TgBotmessageHandlerConfig struct {
+	DebugLevel logrus.Level
+}
