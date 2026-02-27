@@ -10,3 +10,13 @@ Everything is divided into 2 bots - the client bot and the moderator bot.
 1) Only admin ou have access, at least initially
 2) Functions: add a selection, add an order. Adding an order is: select a selection -> select a name -> descriptions -> prices -> photos.
 3) Orders. For each order, you can receive a link to this bot or simply visit the orders yourself, or both.
+
+# Quick start
+Build and run with Docker
+```bash
+# Build the Docker image
+docker build -t store_bot:latest .
+
+# Run the container
+docker run --rm -e TOKEN="YOUR_BOT_TOKEN" store_bot
+```
