@@ -10,3 +10,6 @@ type ModeratorHandlerConfig struct {
 	DebugLevel logrus.Level
 }
 
+type MessageHandlerConfig struct {
+	DebugLevel logrus.Level
+}

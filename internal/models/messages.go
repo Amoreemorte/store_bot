@@ -72,3 +72,16 @@ func CallbackQueryFromTgCallbackQuery(tgCallback *tgbotapi.CallbackQuery) *Callb
 	}
 	return callback
 }
+
+type MessageConfig struct {
+	ReceiverId int64
+	Text       string
+
+	Buttons []*Button
+	Photos  []*Photo
+}
+
+type Button struct {
+	Text         string
+	CallbackData string
+}

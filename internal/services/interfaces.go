@@ -12,6 +12,7 @@ type UpdateHandler interface {
 
 var _ UpdateHandler = (*MainHandler)(nil)
 var _ UpdateHandler = (*ModeratorHandler)(nil)
+var _ UpdateHandler = (*MessageHandler)(nil)
 
 type ModeratorRepository interface {
 	CreateModerator(*models.Moderator) (*models.Moderator, error)
