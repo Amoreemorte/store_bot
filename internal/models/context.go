@@ -4,5 +4,5 @@ package models
 //
 // Used instead of context.Context because cancellations are not required + static typing
 type UpdateContext struct {
-	Moder *Moderator
+	IsModerator bool
 }

@@ -8,8 +8,7 @@ import (
 //
 // Can create collections, cards etc.
 type Moderator struct {
-	ID    int64 `gorm:"primaryKey"`
-	State string
+	ID int64 `gorm:"primaryKey"`
 
 	gorm.Model
 }
