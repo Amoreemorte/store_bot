@@ -3,18 +3,16 @@ package database
 import (
 	"fmt"
 
-	"gorm.io/driver/postgres"
-
 	"gorm.io/gorm"
 )
 
-// Return GORM connected to postgres
-func GetGorm(cfg *GormConfig) (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(cfg.GetDCN()), &gorm.Config{})
+// Return GORM connected to chosen databse
+func GetGorm(cfg *GormConfig, db gorm.Dialector) (*gorm.DB, error) {
+	gormDb, err := gorm.Open(db, &gorm.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("Failed to connect gorm to postgres: %w", err)
+		return nil, fmt.Errorf("Failed to connect gorm to database: %w", err)
 	}
-	sqlDB, err := db.DB()
+	sqlDB, err := gormDb.DB()
 	if err != nil {
 		return nil, fmt.Errorf("Failed to get sql db: %w", err)
 	}
@@ -25,5 +23,5 @@ func GetGorm(cfg *GormConfig) (*gorm.DB, error) {
 
 	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
-	return db, nil
+	return gormDb, nil
 }
