@@ -5,6 +5,7 @@ import (
 	"store_bot/internal/models"
 
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 type ModeratorHandler struct {
@@ -32,14 +33,16 @@ func (m *ModeratorHandler) HandleUpdate(update *models.UpdateContext) (*models.U
 		moderatorId = update.Update.CallbackQuery.SenderId
 	}
 
-	moderator, err := m.rep.GetModerator(moderatorId)
-	if err != nil {
-		return nil, fmt.Errorf("%s.HandleUpdate: %w", m.Name(), err)
-	}
-	if moderator != nil {
+	_, err := m.rep.GetModerator(moderatorId)
+	if err == nil {
 		update.IsModerator = true
+		return update, nil
 	}
-	return update, nil
+	if err == gorm.ErrRecordNotFound {
+		update.IsModerator = false
+		return update, nil
+	}
+	return nil, fmt.Errorf("%s.HandleUpdate: %w", m.Name(), err)
 }
 
 func (m *ModeratorHandler) Name() string {

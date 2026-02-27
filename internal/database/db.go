@@ -7,7 +7,7 @@ import (
 )
 
 // Return GORM connected to chosen databse
-func GetGorm(cfg *GormConfig, db gorm.Dialector) (*gorm.DB, error) {
+func GetGorm(cfg *gorm.Config, db gorm.Dialector) (*gorm.DB, error) {
 	gormDb, err := gorm.Open(db, &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("Failed to connect gorm to database: %w", err)
@@ -21,7 +21,7 @@ func GetGorm(cfg *GormConfig, db gorm.Dialector) (*gorm.DB, error) {
 		return nil, fmt.Errorf("Failed to ping sql db: %w", err)
 	}
 
-	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
-	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
+	// sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
+	// sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
 	return gormDb, nil
 }

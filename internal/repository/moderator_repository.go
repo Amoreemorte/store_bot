@@ -38,6 +38,9 @@ func (m *ModeratorRepository) CreateModerator(moderator *models.Moderator) (*mod
 func (m *ModeratorRepository) GetModerator(id int64) (*models.Moderator, error) {
 	moderator := &models.Moderator{ID: id}
 	if err := m.db.Model(&models.Moderator{}).Where(moderator).First(moderator).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, err
+		}
 		return nil, fmt.Errorf("%s.GetModerator: %w", m.Name(), err)
 	}
 	return moderator, nil
