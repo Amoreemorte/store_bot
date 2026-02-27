@@ -32,7 +32,14 @@ func NewMessageHandler(cfg *MessageHandlerConfig) *MessageHandler {
 
 func (m *MessageHandler) HandleUpdate(update *models.UpdateContext) (*models.UpdateContext, error) {
 	var err error
+	update.Msg = &models.MessageConfig{}
 	if update.Update.Message != nil {
+		if !update.IsModerator {
+			update.Msg.ReceiverId = update.Update.Message.SenderId
+			update.Msg.Text = "Вы не являетесь администратором бота..."
+			return update, nil
+		}
+
 		if update.Update.Message.IsCommand() {
 			update, err = m.handleCommand(update)
 		} else {
