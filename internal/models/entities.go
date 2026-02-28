@@ -10,7 +10,23 @@ import (
 type Moderator struct {
 	ID int64 `gorm:"primaryKey"`
 
+	State *ModeratorState `gorm:"not null;foreignKey:ModeratorId;references:ID"`
 	gorm.Model
+}
+
+type ModeratorStateRef = string
+
+const NoAction ModeratorStateRef = "NoAction"
+const Name ModeratorStateRef = "Name"
+const Decsription ModeratorStateRef = "Description"
+const Price ModeratorStateRef = "Price"
+const AddPhoto ModeratorStateRef = "AddPhoto"
+
+type ModeratorState struct {
+	State       ModeratorStateRef `gorm:"column: state"`
+	ModeratorId int64             `gorm:"primaryKey"`
+
+	Moderator *Moderator `gorm:"not null;foreignKey:ModeratorId;references:ID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // Main entity of client bot.

@@ -31,6 +31,7 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create db connections: %w", err)
 	}
+	db.Exec("PRAGMA foreign_keys = ON;")
 	moderRep, err := repository.NewModeratorRepository(&repository.ModeratorRepositoryConfig{MigrateEnable: true}, db)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create ModeratorRepository: %w", err)

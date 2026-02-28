@@ -40,10 +40,7 @@ func TestGetModerator(t *testing.T) {
 
 	moderator, err = rep.GetModerator(1)
 	assert.Nil(t, err, "unable to get moderator")
-	assert.NotNil(t, moderator, "unable to create moderator")
+	assert.NotNil(t, moderator, "unable to get moderator")
 	err = rep.DeleteModerator(1, true)
 	assert.Nil(t, err, "unable to delete moderator")
-
-	moderator, err = rep.GetModerator(0)
-	t.Logf("moderator: %+v, err: %+v", moderator, err)
 }
