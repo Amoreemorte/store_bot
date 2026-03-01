@@ -25,3 +25,16 @@ type ModeratorStateGetterConfig struct {
 type ModeratorStateSetterConfig struct {
 	DebugLevel logrus.Level
 }
+
+type ValidationHandlerConfig struct {
+	DebugLevel logrus.Level
+
+	MaxNameLength        int
+	MinNameLength        int
+	MaxCardNameLength    int
+	MinCardNameLength    int
+	MaxDecsriptionLength int
+	MinDescriptionLengh  int
+	MaxPrice             int
+	MinPrice             int
+}

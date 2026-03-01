@@ -4,8 +4,9 @@ package models
 //
 // Used instead of context.Context because cancellations are not required + static typing
 type UpdateContext struct {
-	Update         *Update
-	IsModerator    bool
-	ModeratorState *ModeratorStateRef
-	Msg            *MessageConfig
+	Update          *Update
+	IsModerator     bool
+	ValidationError error
+	ModeratorState  *ModeratorStateRef
+	Msg             *MessageConfig
 }
