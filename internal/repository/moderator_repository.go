@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 	"store_bot/internal/models"
-	handlers "store_bot/internal/services"
 
 	"gorm.io/gorm"
 )
@@ -12,8 +11,6 @@ type ModeratorRepository struct {
 	cfg *ModeratorRepositoryConfig
 	db  *gorm.DB
 }
-
-var _ handlers.ModeratorRepository = (*ModeratorRepository)(nil)
 
 func NewModeratorRepository(cfg *ModeratorRepositoryConfig, db *gorm.DB) (*ModeratorRepository, error) {
 	if cfg.MigrateEnable {

@@ -14,6 +14,12 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ handlers.UpdateHandler = (*handlers.MainHandler)(nil)
+var _ handlers.UpdateHandler = (*handlers.ModeratorHandler)(nil)
+var _ handlers.UpdateHandler = (*handlers.MessageHandler)(nil)
+var _ handlers.UpdateHandler = (*handlers.ModeratorStateGetterHandler)(nil)
+var _ handlers.UpdateHandler = (*handlers.ModeratorStateSetterHandler)(nil)
+
 type BotApp struct {
 	mainHandler handlers.UpdateHandler
 	bot         *tgbotapi.BotAPI
