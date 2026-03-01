@@ -34,6 +34,7 @@ var _ ModeratorStateSetterRepository = (*repository.ModeratorStateRepository)(ni
 type CollectionHandlerRepository interface {
 	CreateCollection(*models.Collection) (*models.Collection, error)
 	GetCollection(string) (*models.Collection, error)
+	GetCollections() ([]models.Collection, error)
 }
 
 var _ CollectionHandlerRepository = (*repository.CollectionRepository)(nil)

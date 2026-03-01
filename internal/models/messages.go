@@ -52,6 +52,7 @@ func MessageFromTgMessage(tgMsg *tgbotapi.Message) *Message {
 
 func TgMessageFromMessage(msg *MessageConfig) *tgbotapi.MessageConfig {
 	tgMsg := tgbotapi.NewMessage(msg.ReceiverId, msg.Text)
+	tgMsg.ParseMode = "HTML"
 	return &tgMsg
 }
 

@@ -16,6 +16,7 @@ type CollectionHandler struct {
 }
 
 var CollectionIsAreadyExisten error = errors.New("CollectionIsAreadyExisten")
+var NoCollections error = errors.New("NoCollections")
 
 func NewCollectionHandler(cfg *CollectionHandlerConfig, rep CollectionHandlerRepository) *CollectionHandler {
 	logger := logrus.New()
@@ -31,12 +32,28 @@ func NewCollectionHandler(cfg *CollectionHandlerConfig, rep CollectionHandlerRep
 func (c *CollectionHandler) HandleUpdate(update *models.UpdateContext) (*models.UpdateContext, error) {
 	var err error
 	if update.Update.Message != nil {
-		update, err = c.handleMessage(update)
+		if update.Update.Message.IsCommand() {
+			update, err = c.handleCommand(update)
+		} else {
+			update, err = c.handleMessage(update)
+		}
 	}
 	return update, err
 }
 
 func (c *CollectionHandler) handleCommand(update *models.UpdateContext) (*models.UpdateContext, error) {
+	switch update.Update.Message.Text {
+	case string(Get_collections):
+		collections, err := c.rep.GetCollections()
+		if err == gorm.ErrRecordNotFound || len(collections) == 0 {
+			update.ValidationError = NoCollections
+			return update, nil
+		}
+		if err != nil {
+			return nil, err
+		}
+		update.Collections = &collections
+	}
 	return update, nil
 }
 
@@ -45,7 +62,7 @@ func (c *CollectionHandler) handleCallback(update *models.UpdateContext) (*model
 }
 
 func (c *CollectionHandler) handleMessage(update *models.UpdateContext) (*models.UpdateContext, error) {
-	if update.ValidationError != nil {
+	if update.ValidationError != nil || update.ModeratorState == nil {
 		return update, nil
 	}
 	var err error

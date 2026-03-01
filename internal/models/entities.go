@@ -21,6 +21,7 @@ const Name ModeratorStateRef = "Name"
 const Decsription ModeratorStateRef = "Description"
 const Price ModeratorStateRef = "Price"
 const AddPhoto ModeratorStateRef = "AddPhoto"
+const AddCollection ModeratorStateRef = "AddCollection"
 
 type ModeratorState struct {
 	State       ModeratorStateRef `gorm:"column:state"`

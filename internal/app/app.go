@@ -38,14 +38,40 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 		return nil, fmt.Errorf("Unable to create db connections: %w", err)
 	}
 	db.Exec("PRAGMA foreign_keys = ON;")
+
 	moderRep, err := repository.NewModeratorRepository(&repository.ModeratorRepositoryConfig{MigrateEnable: true}, db)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create ModeratorRepository: %w", err)
 	}
+	moderStateRep, err := repository.NewModeratorStateRepository(&repository.ModeratorStateRepositoryConfig{
+		MigrateEnable: true,
+	}, db)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to create ModeratorStateRepository: %w", err)
+	}
+	collectionRep, err := repository.NewCollectionRepository(&repository.CollectionRepositoryConfig{
+		MigrateEnable: true,
+	}, db)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to create CollectionRepository: %w", err)
+	}
+
 	moderHandler := handlers.NewModeratorHandler(
 		&handlers.ModeratorHandlerConfig{DebugLevel: logrus.ErrorLevel},
 		moderRep,
 	)
+	validationHandler := handlers.NewValidationHandler(handlers.GetDefaultValidationHandlerConfig())
+
+	moderStateGetter := handlers.NewModeratorStateGetterhandler(moderStateRep, &handlers.ModeratorStateGetterConfig{
+		DebugLevel: logrus.ErrorLevel,
+	})
+	moderStateSetter := handlers.NewModeratorStateSetterhandler(moderStateRep, &handlers.ModeratorStateSetterConfig{
+		DebugLevel: logrus.ErrorLevel,
+	})
+	collectionHandler := handlers.NewCollectionHandler(&handlers.CollectionHandlerConfig{
+		DebugLevel: logrus.ErrorLevel,
+	}, collectionRep)
+
 	msgHandler := handlers.NewMessageHandler(
 		&handlers.MessageHandlerConfig{DebugLevel: logrus.ErrorLevel},
 	)
@@ -57,9 +83,16 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 		&handlers.TgBotmessageHandlerConfig{DebugLevel: logrus.ErrorLevel},
 		bot,
 	)
+
 	mainhandler := handlers.NewMainHandler(
 		&handlers.MainHandlerConfig{DebugLevel: logrus.ErrorLevel},
-		moderHandler, msgHandler, tgBotMsgHandler,
+		moderHandler,
+		moderStateGetter,
+		validationHandler,
+		moderStateSetter,
+		collectionHandler,
+		msgHandler,
+		tgBotMsgHandler,
 	)
 	return &BotApp{
 		mainHandler: mainhandler,

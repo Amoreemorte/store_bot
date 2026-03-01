@@ -38,6 +38,16 @@ type ValidationHandlerConfig struct {
 	MaxPrice             int
 	MinPrice             int
 }
+
+func GetDefaultValidationHandlerConfig() *ValidationHandlerConfig {
+	return &ValidationHandlerConfig{
+		MaxNameLength:        50,
+		MaxCardNameLength:    20,
+		MaxDecsriptionLength: 200,
+		MaxPrice:             100_000,
+	}
+}
+
 type CollectionHandlerConfig struct {
 	DebugLevel logrus.Level
 }

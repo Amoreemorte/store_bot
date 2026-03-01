@@ -9,5 +9,6 @@ type UpdateContext struct {
 	ModeratorState  *ModeratorStateRef
 	ValidationError error
 	CollectionName  *string
+	Collections     *[]Collection
 	Msg             *MessageConfig
 }
