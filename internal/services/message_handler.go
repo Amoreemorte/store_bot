@@ -58,7 +58,7 @@ func (m *MessageHandler) HandleUpdate(update *models.UpdateContext) (*models.Upd
 func (m *MessageHandler) handleMessage(update *models.UpdateContext) (*models.UpdateContext, error) {
 	update.Msg.ReceiverId = update.Update.Message.SenderId
 	if update.ModeratorState == nil {
-		update.Msg.Text = "Не понимаю"
+		update.Msg.Text = "Не понимаю... \n Просмотреть команды: " + string(Start_command)
 		return update, nil
 	}
 	switch *update.ModeratorState {
@@ -74,8 +74,10 @@ func (m *MessageHandler) handleMessage(update *models.UpdateContext) (*models.Up
 			if update.CollectionName == nil {
 				return nil, errors.New("Collection name not set")
 			}
-			update.Msg.Text = fmt.Sprintf("Вы успешно создали новую коллекцию: <b>%s</b> 🙀", *update.CollectionName)
+			update.Msg.Text = fmt.Sprintf("Вы успешно создали новую коллекцию: <b>%s</b> 🙀 \nПросмотреть команды: %s", *update.CollectionName, string(Start_command))
 		}
+	case models.NoAction:
+		update.Msg.Text = "Ничего не понял... \n Просмотреть команды: " + string(Start_command)
 	}
 	return update, nil
 }
@@ -126,5 +128,6 @@ func (m *MessageHandler) getMessageTextFromCollections(collections []models.Coll
 	for i, collection := range collections {
 		text += fmt.Sprintf("    <b>%d</b>: %s\n", i+1, collection.Name)
 	}
+	text += "\n Просмотреть команды: " + string(Start_command)
 	return text
 }
