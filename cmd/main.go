@@ -10,6 +10,7 @@ func main() {
 	app, err := app.NewBotApp(&app.BotAppConfig{
 		WorkersNum:      20,
 		UpdatesChanSize: 40,
+		Separator:       ",",
 	})
 	if err != nil {
 		fmt.Printf("ERROR: %s", err.Error())

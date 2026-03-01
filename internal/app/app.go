@@ -7,6 +7,8 @@ import (
 	"store_bot/internal/models"
 	"store_bot/internal/repository"
 	handlers "store_bot/internal/services"
+	"strconv"
+	"strings"
 
 	"github.com/glebarez/sqlite"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -30,6 +32,7 @@ type BotApp struct {
 type BotAppConfig struct {
 	WorkersNum      int
 	UpdatesChanSize int
+	Separator       string
 }
 
 func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
@@ -42,6 +45,19 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 	moderRep, err := repository.NewModeratorRepository(&repository.ModeratorRepositoryConfig{MigrateEnable: true}, db)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create ModeratorRepository: %w", err)
+	}
+	mdIds := os.Getenv("MODERATOR_IDS")
+	if mdIds != "" {
+		ids, err := parseModeratorIds(mdIds, cfg.Separator)
+		if err != nil {
+			return nil, fmt.Errorf("Unable to parse ModeratorIds: %w", err)
+		}
+		for _, id := range ids {
+			_, err := moderRep.CreateModerator(&models.Moderator{ID: id})
+			if err != nil {
+				return nil, fmt.Errorf("Failed to create moderator: %w", err)
+			}
+		}
 	}
 	moderStateRep, err := repository.NewModeratorStateRepository(&repository.ModeratorStateRepositoryConfig{
 		MigrateEnable: true,
@@ -119,4 +135,17 @@ func (b *BotApp) HandleUpdates() {
 	for update := range updates {
 		b.updatesChan <- &models.UpdateContext{Update: models.UpdateFromTgUpdate(&update)}
 	}
+}
+
+func parseModeratorIds(strIds string, sep string) ([]int64, error) {
+	strIdsArray := strings.Split(strIds, sep)
+	ids := make([]int64, 0, len(strIdsArray))
+	for _, strId := range strIdsArray {
+		id, err := strconv.ParseInt(strId, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		ids = append(ids, id)
+	}
+	return ids, nil
 }
