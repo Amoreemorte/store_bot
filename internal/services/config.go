@@ -38,3 +38,6 @@ type ValidationHandlerConfig struct {
 	MaxPrice             int
 	MinPrice             int
 }
+type CollectionHandlerConfig struct {
+	DebugLevel logrus.Level
+}

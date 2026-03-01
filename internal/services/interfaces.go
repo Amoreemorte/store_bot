@@ -30,3 +30,10 @@ type ModeratorStateSetterRepository interface {
 }
 
 var _ ModeratorStateSetterRepository = (*repository.ModeratorStateRepository)(nil)
+
+type CollectionHandlerRepository interface {
+	CreateCollection(*models.Collection) (*models.Collection, error)
+	GetCollection(string) (*models.Collection, error)
+}
+
+var _ CollectionHandlerRepository = (*repository.CollectionRepository)(nil)

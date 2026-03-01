@@ -8,5 +8,7 @@ type UpdateContext struct {
 	IsModerator     bool
 	ValidationError error
 	ModeratorState  *ModeratorStateRef
+	ValidationError error
+	CollectionName  *string
 	Msg             *MessageConfig
 }
