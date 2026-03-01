@@ -34,8 +34,8 @@ func (m *ModeratorStateRepository) CreateModeratorState(state *models.ModeratorS
 
 func (m *ModeratorStateRepository) UpdateModeratorState(moderatorId int64, state models.ModeratorStateRef) error {
 	if err := m.db.Model(&models.ModeratorState{}).
-		Where("moderatorId = ?", moderatorId).
-		Update("state = ?", state).Error; err != nil {
+		Where("ModeratorId = ?", moderatorId).
+		Update("state", state).Error; err != nil {
 		return fmt.Errorf("%s.UpdateModeratorState: %w", m.Name(), err)
 	}
 	return nil

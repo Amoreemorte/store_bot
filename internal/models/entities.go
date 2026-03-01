@@ -23,8 +23,8 @@ const Price ModeratorStateRef = "Price"
 const AddPhoto ModeratorStateRef = "AddPhoto"
 
 type ModeratorState struct {
-	State       ModeratorStateRef `gorm:"column: state"`
-	ModeratorId int64             `gorm:"primaryKey"`
+	State       ModeratorStateRef `gorm:"column:state"`
+	ModeratorId int64             `gorm:"primaryKey;column:ModeratorId"`
 
 	Moderator *Moderator `gorm:"not null;foreignKey:ModeratorId;references:ID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

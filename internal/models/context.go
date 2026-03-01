@@ -6,7 +6,6 @@ package models
 type UpdateContext struct {
 	Update          *Update
 	IsModerator     bool
-	ValidationError error
 	ModeratorState  *ModeratorStateRef
 	ValidationError error
 	CollectionName  *string
