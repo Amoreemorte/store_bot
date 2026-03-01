@@ -8,6 +8,6 @@ type ModeratorStateRepositoryConfig struct {
 	MigrateEnable bool
 }
 
-type CardRepositoryConfig struct {
+type CollectionRepositoryConfig struct {
 	MigrateEnable bool
 }
