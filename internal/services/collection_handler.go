@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"store_bot/internal/models"
 
 	"github.com/sirupsen/logrus"
@@ -74,10 +73,11 @@ func (c *CollectionHandler) handleMessage(update *models.UpdateContext) (*models
 		}
 		if collection != nil {
 			update.ValidationError = CollectionIsAreadyExisten
+			return update, nil
 		}
 		_, err = c.rep.CreateCollection(&models.Collection{Name: update.Update.Message.Text})
-		if err == nil {
-			fmt.Println("collection succsesfully create!")
+		if err != nil {
+			return nil, err
 		}
 		update.CollectionName = &update.Update.Message.Text
 	}

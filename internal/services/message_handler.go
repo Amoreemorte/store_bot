@@ -10,7 +10,6 @@ import (
 
 type Command string
 
-// TODO: change temporarily commands
 var Start_command Command = "/start"
 var Hello_command Command = "/hello"
 var Create_collection_command Command = "/create_collection"
@@ -88,7 +87,7 @@ func (m *MessageHandler) handleCommand(update *models.UpdateContext) (*models.Up
 	case string(Start_command):
 		update.Msg.Text = fmt.Sprintf(
 			`
-				Мои комманды: 
+				Мои команды: 
 					%s - просмотреть команды, 
 					%s - получить приветствие,
 					%s - добавить подборку, 
