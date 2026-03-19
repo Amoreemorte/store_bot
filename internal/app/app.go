@@ -71,6 +71,12 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create CollectionRepository: %w", err)
 	}
+	cardRep, err := repository.NewCardRepository(&repository.CardRepositoryConfig{
+		MigrateEnable: true,
+	}, db)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to create CardRepository: %w", err)
+	}
 
 	moderHandler := handlers.NewModeratorHandler(
 		&handlers.ModeratorHandlerConfig{DebugLevel: logrus.ErrorLevel},
@@ -87,6 +93,9 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 	collectionHandler := handlers.NewCollectionHandler(&handlers.CollectionHandlerConfig{
 		DebugLevel: logrus.ErrorLevel,
 	}, collectionRep)
+	cardHandler := handlers.NewCardHandler(&handlers.CardHandlerConfig{
+		DebugLevel: logrus.ErrorLevel,
+	}, cardRep)
 
 	msgHandler := handlers.NewMessageHandler(
 		&handlers.MessageHandlerConfig{DebugLevel: logrus.ErrorLevel},
@@ -107,6 +116,7 @@ func NewBotApp(cfg *BotAppConfig) (*BotApp, error) {
 		validationHandler,
 		moderStateSetter,
 		collectionHandler,
+		cardHandler,
 		msgHandler,
 		tgBotMsgHandler,
 	)

@@ -51,3 +51,7 @@ func GetDefaultValidationHandlerConfig() *ValidationHandlerConfig {
 type CollectionHandlerConfig struct {
 	DebugLevel logrus.Level
 }
+
+type CardHandlerConfig struct {
+	DebugLevel logrus.Level
+}

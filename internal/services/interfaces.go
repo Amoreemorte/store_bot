@@ -38,3 +38,11 @@ type CollectionHandlerRepository interface {
 }
 
 var _ CollectionHandlerRepository = (*repository.CollectionRepository)(nil)
+
+type CardHandlerRepository interface {
+	CreateCard(*models.Card) (*models.Card, error)
+	GetCard(int64) (*models.Card, error)
+	UpdateCard(*models.Card) error
+}
+
+var _ CardHandlerRepository = (*repository.CardRepository)(nil)

@@ -4,7 +4,7 @@ Tasks:
 
 - [ ] Create card adding in moderate bot by command "\create_card"
 
-    - [ ] Create card handler
+    - [x] Create card handler
 
     - [x] Create card repository
 

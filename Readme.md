@@ -27,6 +27,6 @@ docker run --rm -e TOKEN="YOUR_BOT_TOKEN" store_bot
 	validationHandler   ->
     moderStateSetter    ->
     collectionHandler   ->
-new! cardHandler        -> 
+    cardHandler        -> 
     msgHandler          ->
     tgBotMsgHandler
