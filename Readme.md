@@ -20,3 +20,13 @@ docker build -t store_bot:latest .
 # Run the container
 docker run --rm -e TOKEN="YOUR_BOT_TOKEN" store_bot
 ```
+
+# Current managers chain
+    moderHandler        ->
+	moderStateGetter    ->
+	validationHandler   ->
+    moderStateSetter    ->
+    collectionHandler   ->
+new! cardHandler        -> 
+    msgHandler          ->
+    tgBotMsgHandler
