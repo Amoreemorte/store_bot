@@ -11,3 +11,7 @@ type ModeratorStateRepositoryConfig struct {
 type CollectionRepositoryConfig struct {
 	MigrateEnable bool
 }
+
+type CardRepositoryConfig struct {
+	MigrateEnable bool
+}

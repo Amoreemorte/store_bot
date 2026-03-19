@@ -24,6 +24,8 @@ type Card struct {
 	Name        string `gorm:"size:50"`
 	Desrciption string `gorm:"size:2048"`
 	Price       int
+	IsFinished  bool  `gorm:"column:IsFinished"`
+	ModeratorId int64 `gorm:"column:ModeratorId"`
 
 	CollectionId int64
 	Collection   *Collection `gorm:"not null;foreignKey:CollectionId;references:ID"`
